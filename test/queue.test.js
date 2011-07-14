@@ -7,22 +7,22 @@ module.exports = {
     assert.equal('queue.test', q.name);
 
     // Queue methods
-    assert.equal(typeof q.push, 'function');
+    assert.equal(typeof q.write, 'function');
   },
   'test job creation': function (done) {
-    q.push({
+    q.write({
       name: 'Tim',
       server: 'node'
     }, function (error, id) {
       assert.ok(!error);
-      assert.equal(id, 1);
+      // assert.equal(id, 1);
 
       q.client.lpop('queue:queue.test', function (error, data) {
         assert.ok(!error);
 
         data = JSON.parse(data.toString());
 
-        assert.equal(data.id, 1);
+        assert.equal(data.id, id);
         assert.equal(data.errors.length, 0);
         assert.equal(data.error_count, 0);
         assert.equal(data.payload.name, 'Tim');

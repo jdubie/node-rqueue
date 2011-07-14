@@ -32,7 +32,7 @@ queue-server.js:
 	});
 
 	// Add a job to the queue.
-	user_queue.push('Any JSON.strinify-able data goes in this parameter', function (error, id) {
+	user_queue.write('Any JSON.strinify-able data goes in this parameter', function (error, id) {
 	  // Handle errors
 	  if (error) throw error;
 	  // Second parameter is the message/job id.
@@ -51,8 +51,8 @@ queue-worker.js:
 	});
 
 	// Setup message event
-	worker.on('message', function (job) {
-	  // Process message
+	worker.on('data', function (job) {
+	  // Process data
 	  process(job.payload);
 
 	  // Listen for next job
